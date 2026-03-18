@@ -128,6 +128,48 @@ graph TD
 | `runtime` | `ros:humble-ros-core-jammy` | 最小化 runtime，含編譯好的 package + laser-proc |
 | `test` | `runtime` | Smoke test，build 完即丟 |
 
+## Smoke Tests
+
+```bash
+./build.sh test
+```
+
+位於 `smoke_test/ros_env.bats`，共 **9** 項。
+
+<details>
+<summary>展開查看測試細項</summary>
+
+#### ROS 環境 (3)
+
+| 測試項目 | 說明 |
+|----------|------|
+| `ROS_DISTRO` | 已設定 |
+| `setup.bash` | 檔案存在 |
+| `setup.bash` | 可 source |
+
+#### urg_node2 套件 (4)
+
+| 測試項目 | 說明 |
+|----------|------|
+| workspace install | 目錄存在 |
+| `local_setup.sh` | 檔案存在 |
+| `urg_node2` | 透過 `ros2 pkg list` 可找到 |
+| 設定檔 | install 目錄中存在 |
+
+#### 依賴 (1)
+
+| 測試項目 | 說明 |
+|----------|------|
+| `laser_proc` | package 可用 |
+
+#### 系統 (1)
+
+| 測試項目 | 說明 |
+|----------|------|
+| `entrypoint.sh` | 存在且可執行 |
+
+</details>
+
 ## 目錄結構
 
 ```text

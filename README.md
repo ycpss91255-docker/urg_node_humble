@@ -128,6 +128,48 @@ graph TD
 | `runtime` | `ros:humble-ros-core-jammy` | Minimal runtime with built package + laser-proc |
 | `test` | `runtime` | Smoke tests, discarded after build |
 
+## Smoke Tests
+
+```bash
+./build.sh test
+```
+
+Located in `smoke_test/ros_env.bats` — **9 tests** total.
+
+<details>
+<summary>Click to expand test details</summary>
+
+#### ROS environment (3)
+
+| Test | Description |
+|------|-------------|
+| `ROS_DISTRO` | Is set |
+| `setup.bash` | File exists |
+| `setup.bash` | Can be sourced |
+
+#### urg_node2 package (4)
+
+| Test | Description |
+|------|-------------|
+| Workspace install | Directory exists |
+| `local_setup.sh` | File exists |
+| `urg_node2` | Package available via `ros2 pkg list` |
+| Config files | Exist in install directory |
+
+#### Dependencies (1)
+
+| Test | Description |
+|------|-------------|
+| `laser_proc` | Package available |
+
+#### System (1)
+
+| Test | Description |
+|------|-------------|
+| `entrypoint.sh` | Exists and executable |
+
+</details>
+
 ## Directory Structure
 
 ```text
