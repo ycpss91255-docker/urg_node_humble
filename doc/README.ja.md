@@ -134,7 +134,7 @@ graph TD
 ./build.sh test
 ```
 
-`smoke_test/ros_env.bats` — **9 テスト**。
+`test/smoke_test/` — **21 テスト**。
 
 <details>
 <summary>クリックしてテスト詳細を表示</summary>
@@ -168,6 +168,23 @@ graph TD
 |-----------|------|
 | `entrypoint.sh` | 存在し実行可能 |
 
+#### スクリプト help (12)
+
+| テスト項目 | 説明 |
+|-----------|------|
+| `build.sh -h` | 終了コード 0 |
+| `build.sh --help` | 終了コード 0 |
+| `build.sh -h` | usage を表示 |
+| `run.sh -h` | 終了コード 0 |
+| `run.sh --help` | 終了コード 0 |
+| `run.sh -h` | usage を表示 |
+| `exec.sh -h` | 終了コード 0 |
+| `exec.sh --help` | 終了コード 0 |
+| `exec.sh -h` | usage を表示 |
+| `stop.sh -h` | 終了コード 0 |
+| `stop.sh --help` | 終了コード 0 |
+| `stop.sh -h` | usage を表示 |
+
 </details>
 
 ## ディレクトリ構成
@@ -179,16 +196,23 @@ urg_node2/
 ├── build.sh                     # ビルドスクリプト
 ├── run.sh                       # 実行スクリプト
 ├── exec.sh                      # 起動中のコンテナに接続
-├── entrypoint.sh                # ROS 2 + workspace を source
+├── stop.sh                      # コンテナを停止
+├── script/
+│   └── entrypoint.sh            # ROS 2 + workspace を source
 ├── config/                      # Hokuyo パラメータファイル
 │   ├── params_ether.yaml        # Ethernet 接続
 │   ├── params_ether_2nd.yaml    # 2台目の LiDAR（Ethernet）
 │   └── params_serial.yaml       # Serial 接続
+├── doc/                         # 翻訳版 README
+│   ├── README.zh-TW.md          # 繁体字中国語
+│   ├── README.zh-CN.md          # 簡体字中国語
+│   └── README.ja.md             # 日本語
 ├── .github/workflows/           # CI/CD
 │   ├── main.yaml
 │   ├── build-worker.yaml
 │   └── release-worker.yaml
-└── smoke_test/                  # Bats 環境テスト
+└── test/smoke_test/             # Bats 環境テスト
     ├── ros_env.bats
+    ├── script_help.bats
     └── test_helper.bash
 ```

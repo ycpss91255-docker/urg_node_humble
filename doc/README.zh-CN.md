@@ -134,7 +134,7 @@ graph TD
 ./build.sh test
 ```
 
-位于 `smoke_test/ros_env.bats`，共 **9** 项。
+位于 `test/smoke_test/`，共 **21** 项。
 
 <details>
 <summary>展开查看测试详情</summary>
@@ -168,6 +168,23 @@ graph TD
 |----------|------|
 | `entrypoint.sh` | 存在且可执行 |
 
+#### 脚本 help (12)
+
+| 测试项目 | 说明 |
+|----------|------|
+| `build.sh -h` | 退出码 0 |
+| `build.sh --help` | 退出码 0 |
+| `build.sh -h` | 显示 usage |
+| `run.sh -h` | 退出码 0 |
+| `run.sh --help` | 退出码 0 |
+| `run.sh -h` | 显示 usage |
+| `exec.sh -h` | 退出码 0 |
+| `exec.sh --help` | 退出码 0 |
+| `exec.sh -h` | 显示 usage |
+| `stop.sh -h` | 退出码 0 |
+| `stop.sh --help` | 退出码 0 |
+| `stop.sh -h` | 显示 usage |
+
 </details>
 
 ## 目录结构
@@ -179,16 +196,23 @@ urg_node2/
 ├── build.sh                     # 构建脚本
 ├── run.sh                       # 执行脚本
 ├── exec.sh                      # 进入已启动的容器
-├── entrypoint.sh                # Source ROS 2 + workspace
+├── stop.sh                      # 停止容器
+├── script/
+│   └── entrypoint.sh            # Source ROS 2 + workspace
 ├── config/                      # Hokuyo 参数文件
 │   ├── params_ether.yaml        # Ethernet 连接
 │   ├── params_ether_2nd.yaml    # 第二颗 LiDAR（Ethernet）
 │   └── params_serial.yaml       # Serial 连接
+├── doc/                         # 翻译版 README
+│   ├── README.zh-TW.md          # 繁体中文
+│   ├── README.zh-CN.md          # 简体中文
+│   └── README.ja.md             # 日文
 ├── .github/workflows/           # CI/CD
 │   ├── main.yaml
 │   ├── build-worker.yaml
 │   └── release-worker.yaml
-└── smoke_test/                  # Bats 环境测试
+└── test/smoke_test/             # Bats 环境测试
     ├── ros_env.bats
+    ├── script_help.bats
     └── test_helper.bash
 ```
