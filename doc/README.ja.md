@@ -95,27 +95,23 @@ docker compose run --rm devel ros2 launch urg_node2 urg_node2.launch.py
 
 ```mermaid
 graph TD
-    EXT1["bats/bats:latest"]:::external
-    EXT2["alpine:latest"]:::external
-    EXT3["ros:humble-ros-base-jammy"]:::external
-    EXT4["ros:humble-ros-core-jammy"]:::external
+    EXT1["bats/bats:latest"]
+    EXT2["alpine:latest"]
+    EXT3["ros:humble-ros-base-jammy"]
+    EXT4["ros:humble-ros-core-jammy"]
 
-    EXT1 --> bats-src["bats-src"]:::tool
-    EXT2 --> bats-ext["bats-extensions"]:::tool
+    EXT1 --> bats-src["bats-src"]
+    EXT2 --> bats-ext["bats-extensions"]
 
-    EXT3 --> builder["builder\ngit clone urg_node2 + colcon build"]:::stage
+    EXT3 --> builder["builder\ngit clone urg_node2 + colcon build"]
 
-    EXT4 --> devel["devel\nlaser-proc + builder の install"]:::stage
+    EXT4 --> devel["devel\nlaser-proc + builder の install"]
     builder -.->|COPY install/| devel
 
-    bats-src --> test["test一時的\nsmoke/ ビルド後に破棄"]:::ephemeral
+    bats-src --> test["test一時的\nsmoke/ ビルド後に破棄"]
     bats-ext --> test
     devel --> test
 
-    classDef external fill:#555,color:#fff,stroke:#999
-    classDef tool fill:#8B6914,color:#fff,stroke:#c8960c
-    classDef stage fill:#1a5276,color:#fff,stroke:#2980b9
-    classDef ephemeral fill:#6e2c00,color:#fff,stroke:#e67e22,stroke-dasharray:5 5
 ```
 
 ### Stage 説明
