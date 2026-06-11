@@ -14,6 +14,7 @@ RUN apk add --no-cache git && \
         https://github.com/bats-core/bats-assert  /bats/bats-assert
 
 FROM alpine:3.21 AS lint-tools
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 RUN apk add --no-cache curl xz && \
     curl -fsSL \
         https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz \
@@ -92,7 +93,8 @@ COPY .base/script/docker/wrapper/*.sh /lint/
 COPY script/entrypoint.sh /lint/
 COPY .base/script/docker/lib /lint/lib
 RUN shellcheck -S warning /lint/*.sh /lint/lib/*.sh
-RUN cd /lint && hadolint Dockerfile
+WORKDIR /lint
+RUN hadolint Dockerfile
 
 # Install bats
 COPY --from=bats-src /opt/bats /opt/bats
