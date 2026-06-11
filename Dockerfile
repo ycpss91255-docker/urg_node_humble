@@ -4,16 +4,17 @@ ARG RUNTIME_TAG="core"
 ARG WS_PATH="/ros_ws"
 
 ############################## devel-test tool sources ##############################
-FROM bats/bats:latest AS bats-src
+FROM bats/bats:1.11.0 AS bats-src
 
-FROM alpine:latest AS bats-extensions
+FROM alpine:3.21 AS bats-extensions
 RUN apk add --no-cache git && \
     git clone --depth 1 -b v0.3.0 \
         https://github.com/bats-core/bats-support /bats/bats-support && \
     git clone --depth 1 -b v2.1.0 \
         https://github.com/bats-core/bats-assert  /bats/bats-assert
 
-FROM alpine:latest AS lint-tools
+FROM alpine:3.21 AS lint-tools
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 RUN apk add --no-cache curl xz && \
     curl -fsSL \
         https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz \
@@ -88,11 +89,12 @@ COPY --from=lint-tools /usr/local/bin/hadolint /usr/local/bin/hadolint
 # Lint: ShellCheck (.sh) + Hadolint (Dockerfile)
 COPY .hadolint.yaml /lint/.hadolint.yaml
 COPY Dockerfile /lint/Dockerfile
-COPY .base/script/docker/*.sh /lint/
+COPY .base/script/docker/wrapper/*.sh /lint/
 COPY script/entrypoint.sh /lint/
 COPY .base/script/docker/lib /lint/lib
 RUN shellcheck -S warning /lint/*.sh /lint/lib/*.sh
-RUN cd /lint && hadolint Dockerfile
+WORKDIR /lint
+RUN hadolint Dockerfile
 
 # Install bats
 COPY --from=bats-src /opt/bats /opt/bats
